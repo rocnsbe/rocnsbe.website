@@ -1,0 +1,134 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+  Layout = "Master.cshtml";
+
+  string featuredImage;
+
+  var itemName = Model.Name;
+  var eventURL = "eventURL";
+  var eventImage = "eventImage";
+  var eventTitle = "eventTitle";
+  var eventDescription = "eventDescription";
+  var eventDate = "eventDate";
+  var eventAge = "eventAge";
+  var eventCategory = "eventCategory";
+  var eventAuthor = Model.CreatorName();
+
+
+
+  eventURL = Model.Url();
+
+  eventImage = Model.HasProperty(nameof(featuredImage)) && Model.HasValue(nameof(featuredImage))
+  ? Model.Value<string>(nameof(featuredImage)) : null;
+
+  eventTitle = Model.HasProperty(nameof(eventTitle)) && Model.HasValue(nameof(eventTitle))
+  ? Model.Value<string>(nameof(eventTitle)) : itemName;
+
+  eventDescription = Model.HasProperty(nameof(eventDescription)) && Model.HasValue(nameof(eventDescription))
+  ? Model.Value<string>(nameof(eventDescription)) : eventDescription;
+  eventDate = Model.HasProperty(nameof(eventDate)) && Model.HasValue(nameof(eventDate))
+  ? Model.Value<DateTime>(nameof(eventDate)).Date.ToString("MMMM dd, yyyy hh:mm tt") : eventDate;
+
+  eventAge = Model.HasProperty(nameof(eventAge)) && Model.HasValue(nameof(eventAge))
+  ? Model.Value<string>(nameof(eventAge)) : eventAge;
+
+
+  var eventCategoryTags = Model.HasProperty(nameof(eventCategory)) && Model.HasValue(nameof(eventCategory))
+  ? Model.Value<IEnumerable<string>>(nameof(eventCategory)) : new string[] { };
+
+}
+
+
+@section CustomCSS {
+
+  <style>
+
+    .navbar-nav-svg {
+      fill: var(--ar-navbar-toggler-color);
+    }
+
+    .navbar-brand, .navbar-nav .nav-link, .navbar-nav .nav-link.active {
+      color: inherit;
+    }
+
+      .navbar-brand, .navbar-brand:hover {
+        color: inherit;
+      }
+
+  </style>
+
+}
+
+
+
+
+<section class="container pb-lg-5 pb-md-4 pb-2 mt-5" style="margin-top: 5rem !important">
+
+
+
+  <!-- Breadcrumb-->
+  <nav aria-label="breadcrumb">
+    <ol class="pt-lg-3 pb-lg-4 pb-2 breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item"><a href="/events">Events</a></li>
+      <li class="breadcrumb-item active" aria-current="page">@eventTitle</li>
+    </ol>
+  </nav>
+
+  <div class="row">
+    <div class="col-lg-9 col-xl-8 pe-lg-4 pe-xl-0">
+
+      <!-- Post title + post meta -->
+      <h1 class="pb-2 pb-lg-3">@eventTitle</h1>
+      <div class="d-flex flex-wrap align-items-center justify-content-between border-bottom mb-4">
+        <div class="d-flex align-items-center mb-4 me-4">
+          <span class="position-relative fw-semibold p-0" href="#author" data-scroll data-scroll-offset="80">
+            @eventDate
+            <span class="d-block position-absolute start-0 bottom-0 w-100" style="background-color: currentColor; height: 1px;"></span>
+          </span>
+        </div>
+        <div class="d-flex align-items-center mb-4">
+          <span class="fs-sm me-2">Share post:</span>
+          <div class="d-flex">
+            <a class="nav-link p-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Instagram" aria-label="Instagram">
+              <i class="ai-instagram"></i>
+            </a>
+            <a class="nav-link p-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook">
+              <i class="ai-facebook"></i>
+            </a>
+            <a class="nav-link p-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram">
+              <i class="ai-telegram fs-sm"></i>
+            </a>
+            <a class="nav-link p-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="X" aria-label="X">
+              <i class="ai-x"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+      @Html.Raw(eventDescription)
+
+      <!-- Tags -->
+      <div class="d-flex flex-wrap pb-5 pt-3 pt-md-4 pt-xl-5 mt-xl-n2">
+        <h3 class="h6 py-1 mb-0 me-4">Relevant tags:</h3>
+
+
+        @foreach (var eventCategoryTag in eventCategoryTags)
+        {
+          <a class="nav-link fs-sm py-1 px-0 me-3" href="#">
+            <span class="text-primary">#</span>@eventCategoryTag
+          </a>
+
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+</section>

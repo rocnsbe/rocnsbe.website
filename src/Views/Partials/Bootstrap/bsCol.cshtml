@@ -1,0 +1,28 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+  var settings = Model.Settings;
+
+  var defaultColSpan = Model.ColumnSpan;
+  var elementClass = "col";
+  elementClass = $"{elementClass}-{defaultColSpan}";
+
+  var cssClass = "l5-col ";
+  cssClass = cssClass + (settings.HasProperty(nameof(cssClass))
+      && settings.HasValue(nameof(cssClass))
+      ? settings.Value<string>(nameof(cssClass)) : null);
+}
+
+<div class="@elementClass @cssClass">
+
+  @{
+    foreach (var area in Model.Areas)
+    {
+      foreach (var item in area)
+      {
+        @await Html.PartialAsync("Bootstrap/" + item.Content.ContentType.Alias, item)
+      }
+    }
+  }
+
+</div>

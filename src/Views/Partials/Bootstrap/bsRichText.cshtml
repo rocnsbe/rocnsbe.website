@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+  var content = Model.Content;
+  var settings = Model.Settings;
+
+  var cssClass = "l5-richtext";
+  cssClass = settings.HasProperty(nameof(cssClass))
+      && settings.HasValue(nameof(cssClass))
+      ? settings.Value<string>(nameof(cssClass)) : null;
+
+  var inlineStyles = "";
+  inlineStyles = (settings.HasProperty(nameof(inlineStyles))
+     && settings.HasValue(nameof(inlineStyles))
+     ? settings.Value<string>(nameof(inlineStyles)) : null);
+
+  var richText = "";
+  richText = content.HasValue(nameof(richText)) ? content.Value<string>(nameof(richText)) : richText;
+}
+<div class="@cssClass" style="@inlineStyles">
+  @Html.Raw(richText)
+</div>

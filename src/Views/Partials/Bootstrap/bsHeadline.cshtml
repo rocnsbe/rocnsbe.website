@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+  var content = Model.Content;
+  var settings = Model.Settings;
+
+  var cssClass = "l5-headline";
+  cssClass = settings.HasProperty(nameof(cssClass))
+      && settings.HasValue(nameof(cssClass))
+      ? settings.Value<string>(nameof(cssClass)) : null;
+
+  var inlineStyles = "";
+  inlineStyles = (settings.HasProperty(nameof(inlineStyles))
+     && settings.HasValue(nameof(inlineStyles))
+     ? settings.Value<string>(nameof(inlineStyles)) : null);
+
+  var headline = "";
+  headline = content.HasValue(nameof(headline)) ? content.Value<string>(nameof(headline)) : headline;
+}
+<div class="@cssClass" style="@inlineStyles">
+  @Html.Raw(headline)
+</div>

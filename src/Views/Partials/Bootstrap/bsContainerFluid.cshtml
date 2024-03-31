@@ -1,0 +1,57 @@
+﻿@using Umbraco.Cms.Core.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+  var elementClass = "container";
+  var settings = Model.Settings;
+  var suffix = settings.HasProperty("fullWidth") && settings.HasValue("fullWidth") && settings.Value<bool>("fullWidth") ?
+  "-fluid" : "";
+  elementClass = $"{elementClass}{suffix}";
+
+  var cssClass = "l5-container ";
+  cssClass = cssClass + (settings.HasProperty(nameof(cssClass))
+      && settings.HasValue(nameof(cssClass))
+      ? settings.Value<string>(nameof(cssClass)) : null);
+
+  var inlineStyles = "";
+
+  var backgroundColor = "";
+  backgroundColor = settings.HasProperty(nameof(backgroundColor))
+      && settings.HasValue(nameof(backgroundColor))
+      ? settings.Value<string>(nameof(backgroundColor)) : null;
+
+  MediaWithCrops? backgroundImage = null;
+  backgroundImage = settings.HasProperty(nameof(backgroundImage))
+      && settings.HasValue(nameof(backgroundImage))
+      ? settings.Value<MediaWithCrops>(nameof(backgroundImage)) : null;
+
+  if (backgroundImage != null)
+  {
+    inlineStyles = $"{inlineStyles}background-image: url({backgroundImage});";
+  }
+
+  if (!string.IsNullOrEmpty(backgroundColor))
+  {
+    inlineStyles = $"{inlineStyles}background-color: {backgroundColor};";
+  }
+
+  inlineStyles = inlineStyles + (settings.HasProperty(nameof(inlineStyles))
+      && settings.HasValue(nameof(inlineStyles))
+      ? settings.Value<string>(nameof(inlineStyles)) : null);
+
+}
+
+<section class="@elementClass @cssClass" style="@inlineStyles">
+  @{
+
+    foreach (var area in Model.Areas)
+    {
+      foreach (var item in area)
+      {
+        @await Html.PartialAsync("Bootstrap/" + item.Content.ContentType.Alias, item)
+      }
+
+    }
+  }
+
+</section>

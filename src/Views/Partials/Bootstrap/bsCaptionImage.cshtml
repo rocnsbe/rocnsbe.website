@@ -1,0 +1,88 @@
+﻿@using Umbraco.Cms.Core.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+
+@{
+  var content = Model.Content;
+  var settings = Model.Settings;
+
+  var elementClass = "l5-capimg";
+  var inlineStyles = "";
+  var width = "";
+  var height = "";
+  var imageSrc = "";
+  var cssClass = "l5-image ";
+
+  cssClass = cssClass + (settings.HasProperty(nameof(cssClass))
+      && settings.HasValue(nameof(cssClass))
+      ? settings.Value<string>(nameof(cssClass)) : null);
+
+  width = (settings.HasProperty(nameof(width))
+   && settings.HasValue(nameof(width))
+   ? settings.Value<string>(nameof(width)) : null);
+
+  height = (settings.HasProperty(nameof(height))
+     && settings.HasValue(nameof(height))
+     ? settings.Value<string>(nameof(height)) : null);
+
+  if (!string.IsNullOrEmpty(width))
+  {
+    inlineStyles = $"{inlineStyles} width: {width};";
+  }
+
+  if (!string.IsNullOrEmpty(height))
+  {
+    inlineStyles = $"{inlineStyles} height: {height};";
+  }
+
+  inlineStyles = inlineStyles + (settings.HasProperty(nameof(inlineStyles))
+   && settings.HasValue(nameof(inlineStyles))
+   ? settings.Value<string>(nameof(inlineStyles)) : null);
+
+  MediaWithCrops? image;
+  image = content.HasProperty(nameof(image))
+      && content.HasValue(nameof(image))
+      ? content.Value<MediaWithCrops>(nameof(image)) : null;
+
+  var caption = "";
+  caption = content.HasProperty(nameof(caption))
+      && content.HasValue(nameof(caption))
+      ? content.Value<string>(nameof(caption)) : null;
+
+  var captionTitle = "";
+  captionTitle = content.HasProperty(nameof(captionTitle))
+      && content.HasValue(nameof(captionTitle))
+      ? content.Value<string>(nameof(captionTitle)) : null;
+
+  var imagePosition = "";
+  imagePosition = settings.HasProperty(nameof(imagePosition))
+      && settings.HasValue(nameof(imagePosition))
+      ? settings.Value<string>(nameof(imagePosition)) : "left";
+
+  var isRightPosition = !string.IsNullOrEmpty(imagePosition) && imagePosition.ToLower().Contains("right");
+
+  var paddingLeft = isRightPosition ? "ps-0" : "";
+  var paddingRight = isRightPosition ? "" : "pe-0";
+
+  var orderCaption = isRightPosition ? "order-md-1" : "order-md-2";
+  var orderImage = isRightPosition ? "order-md-2" : "order-md-1";
+
+  imageSrc = image?.Url() ?? "";
+}
+<div class="card border-0 @elementClass p-3" style="@inlineStyles">
+  <div class="row g-0">
+
+    <div class="col-md-6 d-flex align-items-center @orderImage">
+      <div>
+        <img src="@imageSrc" class="img-fluid" alt="...">
+      </div>
+    </div>
+    <div class="col-md-6 @orderCaption">
+      <div class="card-body @paddingLeft @paddingRight">
+        <h5 class="card-title">@Html.Raw(captionTitle)</h5>
+        <p class="card-text">@Html.Raw(caption)</p>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,63 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+
+@{
+  Layout = "Master.cshtml";
+
+  ImageCropperValue? featuredImage;
+  featuredImage = Model.HasProperty(nameof(featuredImage)) && Model.HasValue(nameof(featuredImage))
+    ? Model.Value<ImageCropperValue>(nameof(featuredImage)) : null;
+
+
+  string? pageTitle;
+  pageTitle = Model.HasProperty(nameof(pageTitle)) && Model.HasValue(nameof(pageTitle))
+    ? Model.Value<string>(nameof(pageTitle)) : null;
+
+  var featuredImageSrc = featuredImage?.Src;
+
+
+}
+
+
+
+
+<!-- Hero -->
+<section class="position-relative p-5" style="height: 60vh">
+  <div class="position-absolute w-100 h-100 top-0 start-0 bg-size-cover bg-position-center" style="background-image: url(@featuredImageSrc);"></div>
+  <div class="position-absolute w-100 h-100 top-0 start-0 bg-size-cover  background-overlay"></div>
+  <div class="container-fluid mx-0 px-0 position-relative z-2 h-100">
+    <div class="row h-100">
+      <div class="col-12 h-100 d-flex align-items-center">
+        <div class="text-center flex-grow-1">
+          <h2 class="display-5 text-white">@pageTitle</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container-fluid" style="background-color: white;">
+  <section class="container  py-sm-5 py-md-0">
+  @{
+    await RenderContent();
+  }
+  </section>
+</section>
+
+
+
+@functions {
+
+  async Task RenderContent()
+  {
+    BlockGridModel? body;
+    body = Model.Value<BlockGridModel>(nameof(body));
+    @await Html.PartialAsync("Bootstrap/bsElement", body)
+    ;
+  }
+}
+

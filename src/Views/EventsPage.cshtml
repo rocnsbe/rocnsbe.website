@@ -1,0 +1,164 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.EventsPage>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+  Layout = "Master.cshtml";
+
+
+  var umbracoUrlName = "";
+  var featuredImage = "";
+
+  string? pageTitle;
+  pageTitle = Model.HasProperty(nameof(pageTitle)) && Model.HasValue(nameof(pageTitle))
+    ? Model.Value<string>(nameof(pageTitle)) : Model.Name;
+
+
+  umbracoUrlName = Model.HasProperty(nameof(umbracoUrlName)) && Model.HasValue(nameof(umbracoUrlName))
+    ? Model.Value<string>(nameof(umbracoUrlName)) : null;
+
+
+  featuredImage = Model.HasProperty(nameof(featuredImage)) && Model.HasValue(nameof(featuredImage))
+    ? Model.Value<string>(nameof(featuredImage)) : null;
+
+
+
+
+}
+
+
+
+@section CustomCSS {
+
+  <style>
+
+    .navbar-nav-svg {
+      fill: var(--ar-navbar-toggler-color);
+    }
+
+    .navbar-brand, .navbar-nav .nav-link, .navbar-nav .nav-link.active {
+      color: inherit;
+    }
+
+      .navbar-brand, .navbar-brand:hover {
+        color: inherit;
+      }
+
+  </style>
+
+}
+
+
+
+<section class="container pb-lg-5 pb-md-4 pb-2 mt-5" style="margin-top: 5rem !important">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb">
+    <ol class="pt-lg-3 pb-lg-4 pb-2 breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Events</li>
+    </ol>
+  </nav>
+
+
+  <!-- Page title + filters -->
+  <div class="row align-items-center gy-2 mb-4 pb-1 pb-sm-2 pb-lg-3">
+    <div class="col-lg-5">
+      <h1 class="mb-lg-0">Events</h1>
+    </div>
+    <div class="col-xl-2 offset-xl-1 col-lg-3 col-sm-5">
+      <select class="form-select">
+        <option>All categories</option>
+        <option>Inspiration</option>
+        <option>Brand strategy</option>
+        <option>Advertisement</option>
+        <option>Ecommerce</option>
+        <option>Travel &amp; Vacation</option>
+      </select>
+    </div>
+    <div class="col-lg-4 col-sm-7">
+      <div class="position-relative">
+        <i class="ai-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
+        <input class="form-control ps-5" type="search" placeholder="Enter keyword">
+      </div>
+    </div>
+  </div>
+
+  @{
+
+
+    var eventPosts = Umbraco.Content(Guid.Parse("6ce2cd62-61a4-4421-92f8-9ade94f7f548"))
+    .ChildrenOfType("eventPost")
+    .Where(x => x.IsVisible());
+
+
+
+  }
+
+
+  @foreach (var item in eventPosts)
+  {
+    var itemName = item.Name;
+    var eventURL = "eventURL";
+    var eventImage = "eventImage";
+    var eventTitle = "eventTitle";
+    var eventSummary = "eventSummary";
+    var eventDate = "eventDate";
+    var eventAge = "eventAge";
+    var eventCategory = "eventCategory";
+
+    eventURL = item.Url();
+
+    eventImage = item.HasProperty(nameof(featuredImage)) && item.HasValue(nameof(featuredImage))
+    ? item.Value<string>(nameof(featuredImage)) : featuredImage;
+
+    eventTitle = item.HasProperty(nameof(eventTitle)) && item.HasValue(nameof(eventTitle))
+    ? item.Value<string>(nameof(eventTitle)) : itemName;
+
+    eventSummary = item.HasProperty(nameof(eventSummary)) && item.HasValue(nameof(eventSummary))
+    ? item.Value<string>(nameof(eventSummary)) : eventSummary;
+    eventDate = item.HasProperty(nameof(eventDate)) && item.HasValue(nameof(eventDate))
+    ? item.Value<DateTime>(nameof(eventDate)).Date.ToString("MMMM dd, yyyy hh:mm tt") : eventDate;
+    eventAge = item.HasProperty(nameof(eventAge)) && item.HasValue(nameof(eventAge))
+    ? item.Value<string>(nameof(eventAge)) : eventAge;
+
+    var eventCategoryTags = item.HasProperty(nameof(eventCategory)) && item.HasValue(nameof(eventCategory))
+    ? item.Value<IEnumerable<string>>(nameof(eventCategory)) : null;
+
+
+    <!-- Post -->
+    <article class="row g-0 border-0 mb-4">
+      <a class="col-sm-5 col-lg-4 bg-repeat-0 bg-size-cover bg-position-center rounded-5" href="@eventURL" style="background-image: url(@eventImage); min-height: 16rem" alt="@eventImage" aria-label="Event image"></a>
+      <div class="col-sm-7 col-lg-8">
+        <div class="pt-4 pb-sm-4 ps-sm-4 pe-lg-4">
+          <h3>
+            <a href="@eventURL">@eventTitle</a>
+          </h3>
+          <p class="d-sm-none d-md-block">@Html.Raw(eventSummary)</p>
+          <div class="d-flex flex-wrap align-items-center mt-n2">
+            <a class="nav-link text-body-secondary fs-sm fw-normal p-0 mt-2 me-3" href="#">
+              <i class="ai-share fs-lg ms-1"></i>
+            </a>
+            <a class="nav-link text-body-secondary fs-sm fw-normal d-flex align-items-end p-0 mt-2" href="#">
+              <i class="ai-message fs-lg ms-1"></i>
+            </a>
+            <span class="fs-xs opacity-20 mt-2 mx-3">|</span>
+            <span class="fs-sm text-body-secondary mt-2">@eventDate</span>
+            <span class="fs-xs opacity-20 mt-2 mx-3">|</span>
+
+            @foreach (var eventCategoryTag in eventCategoryTags)
+            {
+              <a class="badge text-nav fs-xs border mt-2" href="#">
+                @eventCategoryTag
+              </a>
+
+            }
+
+          </div>
+        </div>
+      </div>
+    </article>
+  }
+
+
+</div>
+

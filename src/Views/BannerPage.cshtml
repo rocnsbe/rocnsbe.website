@@ -1,0 +1,27 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.BannerPage>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks
+
+@{
+	Layout = "Master.cshtml";
+}
+
+
+
+@{
+    var grid = Model.Value<BlockGridModel>("body");
+
+    // get the number of columns defined for the grid
+    var gridColumns = grid.GridColumns;
+
+    // iterate the block items
+    foreach (var item in grid)
+    {
+        var content = item.Content;
+
+        <div class="col">
+            @content.Value<string>()
+        </div>
+    }
+}

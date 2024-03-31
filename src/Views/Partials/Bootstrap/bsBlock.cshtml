@@ -1,0 +1,31 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+  var settings = Model.Settings;
+
+  var elementClass = "";
+
+  var cssClass = "l5-div ";
+  cssClass = cssClass + (settings.HasProperty(nameof(cssClass))
+      && settings.HasValue(nameof(cssClass))
+      ? settings.Value<string>(nameof(cssClass)) : null);
+
+  var inlineStyles = "";
+  inlineStyles = inlineStyles + (settings.HasProperty(nameof(inlineStyles))
+    && settings.HasValue(nameof(inlineStyles))
+    ? settings.Value<string>(nameof(inlineStyles)) : null);
+}
+
+<div class="@elementClass @cssClass" style="@inlineStyles">
+
+  @{
+    foreach (var area in Model.Areas)
+    {
+      foreach (var item in area)
+      {
+        @await Html.PartialAsync("Bootstrap/" + item.Content.ContentType.Alias, item)
+      }
+    }
+  }
+
+</div>

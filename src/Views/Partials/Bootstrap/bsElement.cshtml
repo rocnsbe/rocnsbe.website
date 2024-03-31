@@ -1,0 +1,9 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridModel>
+
+@{
+  foreach (var item in Model)
+  {
+
+    @await Html.PartialAsync("Bootstrap/" + item.Content.ContentType.Alias, item)
+  }
+}

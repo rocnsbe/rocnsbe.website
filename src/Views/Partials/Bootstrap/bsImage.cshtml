@@ -1,0 +1,48 @@
+﻿@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+
+@{
+  var content = Model.Content;
+  var settings = Model.Settings;
+  var imageSrc = "";
+
+  var cssClass = "l5-image ";
+  cssClass = cssClass + (settings.HasProperty(nameof(cssClass))
+      && settings.HasValue(nameof(cssClass))
+      ? settings.Value<string>(nameof(cssClass)) : null);
+
+  var inlineStyles = "";
+  var width = ""; var height = "";
+
+  width =  (settings.HasProperty(nameof(width))
+   && settings.HasValue(nameof(width))
+   ? settings.Value<string>(nameof(width)) : null);
+
+  height = (settings.HasProperty(nameof(height))
+     && settings.HasValue(nameof(height))
+     ? settings.Value<string>(nameof(height)) : null);
+
+  if (!string.IsNullOrEmpty(width))
+  {
+    inlineStyles = $"{inlineStyles} width: {width};";
+  }
+
+  if (!string.IsNullOrEmpty(height))
+  {
+    inlineStyles = $"{inlineStyles} height: {height};";
+  }
+
+  inlineStyles = inlineStyles + (settings.HasProperty(nameof(inlineStyles))
+   && settings.HasValue(nameof(inlineStyles))
+   ? settings.Value<string>(nameof(inlineStyles)) : null);
+
+  MediaWithCrops? image;
+  image = content.HasProperty(nameof(image))
+      && content.HasValue(nameof(image))
+      ? content.Value<MediaWithCrops>(nameof(image)) : null;
+
+  imageSrc = image?.Url();
+}
+
+<img src="@imageSrc" class="@cssClass" style="@inlineStyles" />

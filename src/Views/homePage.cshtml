@@ -1,0 +1,53 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.HomePage>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@{
+  Layout = "Master.cshtml";
+
+  var featuredImage = Model.HasProperty("featuredImage") && Model.HasValue("featuredImage") ? Model.Value<ImageCropperValue>("featuredImage") : null;
+  var featuredImageSrc = featuredImage.Src;
+
+}
+
+
+<!-- Hero -->
+<section class="position-relative p-5">
+  <div class="position-absolute w-100 h-100 top-0 start-0 bg-size-cover bg-position-center" style="background-image: url(@featuredImageSrc);"></div>
+  <div class="position-absolute w-100 h-100 top-0 start-0 bg-size-cover bg-position-center background-overlay"></div>
+  <div class="d-none d-lg-block" style="height: 360px;"></div>
+  <div class="d-none d-md-block d-lg-none" style="height: 260px;"></div>
+  <div class="d-md-none" style="height: 160px;"></div>
+  <div class="container position-relative z-2 pt-2 pt-sm-4 pt-lg-5 h-100">
+    @{
+      await RenderHero();
+    }
+  </div>
+</section>
+
+
+
+@{
+  await RenderContent();
+}
+
+@functions {
+
+  async Task RenderHero()
+  {
+    BlockGridModel banner;
+    banner = Model.Value<BlockGridModel>(nameof(banner));
+    @await Html.PartialAsync("Bootstrap/bsElement", banner)
+    ;
+  }
+
+  async Task RenderContent()
+  {
+    BlockGridModel body;
+    body = Model.Value<BlockGridModel>(nameof(body));
+    @await Html.PartialAsync("Bootstrap/bsElement", body)
+    ;
+  }
+}
+
