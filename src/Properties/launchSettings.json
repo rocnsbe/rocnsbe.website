@@ -8,22 +8,31 @@
       "sslPort": 44335
     }
   },
-  "profiles": {
-    "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
-    },
-    "Umbraco.Web.UI": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "applicationUrl": "https://localhost:44335;http://localhost:11124",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }      
+    "profiles": {
+        "IIS Express": {
+            "commandName": "IISExpress",
+            "launchBrowser": true,
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        "Umbraco.Web.UI": {
+            "commandName": "Project",
+            "dotnetRunMessages": true,
+            "launchBrowser": true,
+            "applicationUrl": "https://localhost:44335;http://localhost:11124",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        "Umbraco.Web.UI (PROD)": {
+            "commandName": "Project",
+            "dotnetRunMessages": true,
+            "launchBrowser": true,
+            "applicationUrl": "https://localhost:44335;http://localhost:11124",
+            "environmentVariables": {
+                "ASPNETCORE_ENVIRONMENT": "Production"
+            }
+        }
     }
-  }
 }

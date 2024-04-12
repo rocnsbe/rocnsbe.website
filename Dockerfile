@@ -18,9 +18,14 @@ WORKDIR /app
 
 COPY --from=build /app/publish .
 
+COPY --from=build /src/entrypoint.sh /run/rocnsbe/entrypoint.sh
+
+RUN chmod +x "/run/rocnsbe/entrypoint.sh"
+
 EXPOSE 80
 
 ENV ASPNETCORE_URLS=http://*:80
+ENV ASPNETCORE_ENVIRONMENT=Production
 
 
-ENTRYPOINT ["dotnet", "ROCNSBE.Website.dll"]
+ENTRYPOINT /run/rocnsbe/entrypoint.sh
