@@ -2,7 +2,7 @@
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.EventsPage>
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
 @{
-  Layout = "Master.cshtml";
+  Layout = "Master2.cshtml";
 
 
   var umbracoUrlName = "";
@@ -65,7 +65,7 @@
     <div class="col-lg-5">
       <h1 class="mb-lg-0">Events</h1>
     </div>
-    <div class="col-xl-2 offset-xl-1 col-lg-3 col-sm-5">
+    <div class="col-xl-2 offset-xl-1 col-lg-3 col-sm-5 d-none">
       <select class="form-select">
         <option>All categories</option>
         <option>Inspiration</option>
@@ -75,7 +75,7 @@
         <option>Travel &amp; Vacation</option>
       </select>
     </div>
-    <div class="col-lg-4 col-sm-7">
+    <div class="col-lg-4 col-sm-7 d-none">
       <div class="position-relative">
         <i class="ai-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
         <input class="form-control ps-5" type="search" placeholder="Enter keyword">
@@ -86,9 +86,10 @@
   @{
 
 
-    var eventPosts = Umbraco.Content(Guid.Parse("6ce2cd62-61a4-4421-92f8-9ade94f7f548"))
+    var eventPosts = Umbraco.Content(Guid.Parse("57a9a7cd-4aab-47e8-b286-bd5ba121f412"))
     .ChildrenOfType("eventPost")
-    .Where(x => x.IsVisible());
+    .Where(x => x.IsVisible())
+    .OrderByDescending(x => x.Value<DateTime>("eventDate"));
 
 
 
@@ -135,6 +136,7 @@
           </h3>
           <p class="d-sm-none d-md-block">@Html.Raw(eventSummary)</p>
           <div class="d-flex flex-wrap align-items-center mt-n2">
+              <div class="d-none">
             <a class="nav-link text-body-secondary fs-sm fw-normal p-0 mt-2 me-3" href="#">
               <i class="ai-share fs-lg ms-1"></i>
             </a>
@@ -142,6 +144,7 @@
               <i class="ai-message fs-lg ms-1"></i>
             </a>
             <span class="fs-xs opacity-20 mt-2 mx-3">|</span>
+            </div>
             <span class="fs-sm text-body-secondary mt-2">@eventDate</span>
             <span class="fs-xs opacity-20 mt-2 mx-3">|</span>
 

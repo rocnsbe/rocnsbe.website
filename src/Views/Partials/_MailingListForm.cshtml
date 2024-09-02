@@ -1,0 +1,16 @@
+﻿@using ROCNSBE.MVC.Controllers;
+
+@model FormsController.MailingListFormModel;
+
+@using (Html.BeginUmbracoForm<FormsController>(nameof(FormsController.MailingListForm), new Dictionary<string, object> { { "class", "mx-auto" }, { "style", "max-width: 800px" } }))
+{
+  <div class="row g-3">
+    <div class="col-sm-12">
+      @Html.TextBoxFor(m => m.Email, new Dictionary<string, object> { { "class", "form-control form-control-lg bg-light" }, { "placeholder", "Email address" }, { "required", true }, { "type", "email" } })
+      @Html.ValidationMessageFor(m => m.Email, null, new Dictionary<string, object> { { "class", "invalid-feedback" } })
+    </div>
+    <div class="col-sm-12 text-center pt-4">
+      <button class="btn btn-lg btn-light" type="submit">Sign Up</button>
+    </div>
+  </div>
+}

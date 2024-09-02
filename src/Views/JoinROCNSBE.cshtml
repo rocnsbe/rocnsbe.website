@@ -1,0 +1,40 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.JoinRocnsbe>
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@{
+	Layout = "Master2.cshtml";
+}
+
+@section CustomCSS {
+
+  <style>
+
+    .navbar-nav-svg {
+      fill: var(--ar-navbar-toggler-color);
+    }
+
+    .navbar-brand, .navbar-nav .nav-link, .navbar-nav .nav-link.active {
+      color: inherit;
+    }
+
+      .navbar-brand, .navbar-brand:hover {
+        color: inherit;
+      }
+
+  </style>
+
+}
+
+
+
+<section class="container pb-lg-5 pb-md-4 pb-2 mt-5" style="margin-top: 5rem !important">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb">
+    <ol class="pt-lg-3 pb-lg-4 pb-2 breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Home</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Join</li>
+    </ol>
+  </nav>
+
+</section>

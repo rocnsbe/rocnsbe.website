@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="CMSImport" Version="13.1.0" />
-    <PackageReference Include="Umbraco.Cms" Version="13.1.1" />
+    <PackageReference Include="Umbraco.Cms" Version="13.3.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Views\Partials\Bootstrap\" />
-    <Folder Include="Views\Partials\NewFolder\" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -28,16 +27,16 @@
     <CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
   </PropertyGroup>
   
-  <ItemGroup>
-    <None Include="wwwroot\**">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+
   
   <ItemGroup>
     <None Include="umbraco\Data\**">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\MVC\ROCNSBE.MVC.csproj" />
   </ItemGroup>
   
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿@using Umbraco.Cms.Core.Models
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem>
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockListItem>
 
 
 @{
@@ -66,21 +66,22 @@
 
   var orderCaption = isRightPosition ? "order-md-1" : "order-md-2";
   var orderImage = isRightPosition ? "order-md-2" : "order-md-1";
+  var titleAlign = isRightPosition ? "text-end" : "text-start";
 
   imageSrc = image?.Url() ?? "";
 }
 <div class="card border-0 @elementClass p-3" style="@inlineStyles">
   <div class="row g-0">
 
-    <div class="col-md-6 d-flex align-items-center @orderImage">
-      <div>
-        <img src="@imageSrc" class="img-fluid" alt="...">
+    <div class="col-md-6 d-flex align-items-center order-md-1 d-none d-md-flex @orderImage">
+      <div class="m-auto">
+        <img src="@imageSrc" class="img-fluid img-thumbnail" alt="@captionTitle" style="max-width: 400px">
       </div>
     </div>
-    <div class="col-md-6 @orderCaption">
-      <div class="card-body @paddingLeft @paddingRight">
-        <h5 class="card-title">@Html.Raw(captionTitle)</h5>
-        <p class="card-text">@Html.Raw(caption)</p>
+    <div class="col-md-6 @orderCaption d-flex">
+      <div class="card-body my-auto p-0 p-md-4">
+        <h5 class="card-title @titleAlign">@Html.Raw(captionTitle)</h5>
+        <div class="card-text @titleAlign">@Html.Raw(caption)</div>
       </div>
     </div>
 

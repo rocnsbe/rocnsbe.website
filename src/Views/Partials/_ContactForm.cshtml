@@ -1,0 +1,38 @@
+﻿@using ROCNSBE.MVC.Controllers;
+
+@model FormsController.ContactFormModel;
+
+@using (Html.BeginUmbracoForm<FormsController>(nameof(FormsController.ContactForm), new Dictionary<string, object> { { "class", "mx-auto" }, { "style", "max-width: 800px" }, { "novalidate", false  } }))
+{
+
+  <div class="row g-4">
+    <div class="col-sm-6">
+      @Html.LabelFor(m => m.Name, new Dictionary<string, object> { { "class", "form-label fs-base text-decoration-underline" } })
+      @Html.TextBoxFor(m => m.Name, new Dictionary<string, object> { { "class", "form-control form-control-lg" }, { "placeholder", "Your name" }, { "required", true } })
+      @Html.ValidationMessageFor(m => m.Name, null, new Dictionary<string, object> { { "class", "invalid-feedback" } })
+    </div>
+    <div class="col-sm-6">
+      @Html.LabelFor(m => m.Company, new Dictionary<string, object> { { "class", "form-label fs-base" } })
+      @Html.TextBoxFor(m => m.Company, new Dictionary<string, object> { { "class", "form-control form-control-lg" }, { "placeholder", "Your company name" } })
+      @Html.ValidationMessageFor(m => m.Company, null, new Dictionary<string, object> { { "class", "invalid-feedback" } })
+    </div>
+    <div class="col-sm-6">
+      @Html.LabelFor(m => m.Email, new Dictionary<string, object> { { "class", "form-label fs-base text-decoration-underline" } })
+      @Html.TextBoxFor(m => m.Email, new Dictionary<string, object> { { "class", "form-control form-control-lg" }, { "placeholder", "Email address" }, { "required", true }, { "type", "email" } })
+      @Html.ValidationMessageFor(m => m.Email, null, new Dictionary<string, object> { { "class", "invalid-feedback" } })
+    </div>
+    <div class="col-sm-6">
+      @Html.LabelFor(m => m.Phone, new Dictionary<string, object> { { "class", "form-label fs-base" } })
+      @Html.TextBoxFor(m => m.Phone, new Dictionary<string, object> { { "class", "form-control form-control-lg" }, { "placeholder", "Phone number" }, { "type", "phone" } })
+      @Html.ValidationMessageFor(m => m.Phone, null, new Dictionary<string, object> { { "class", "invalid-feedback" } })
+    </div>
+    <div class="col-sm-12">
+      @Html.LabelFor(m => m.Message, new Dictionary<string, object> { { "class", "form-label fs-base text-decoration-underline" } })
+      @Html.TextAreaFor(m => m.Message, new Dictionary<string, object> { { "class", "form-control form-control-lg" }, { "placeholder", "Enter your message here..." }, { "rows", 6 }, { "required", true } })
+      @Html.ValidationMessageFor(m => m.Message, null, new Dictionary<string, object> { { "class", "invalid-feedback" } })
+    </div>
+    <div class="col-sm-12 text-center pt-4">
+      <button class="btn btn-lg btn-primary" type="submit">Send</button>
+    </div>
+  </div>
+}

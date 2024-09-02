@@ -1,0 +1,100 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage;
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using ROCNSBE.MVC.Controllers
+@{
+  Layout = "Master2.cshtml";
+
+  string? pageTitle;
+  pageTitle = Model.HasProperty(nameof(pageTitle)) && Model.HasValue(nameof(pageTitle))
+    ? Model.Value<string>(nameof(pageTitle)) : Model.Name;
+
+  bool? tmpContactFormResult = TempData["ContactForm"] as bool?;
+  var isPostBack = tmpContactFormResult == true;
+
+  var httpMethod = Context.Request.Method;
+
+}
+
+@section CustomScripts {
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.7/jquery.inputmask.min.js"></script>
+
+  <script>
+    const httpMethod = "@httpMethod";
+    if (httpMethod.toLowerCase() === "post") {
+
+      $(document).ready(() => {
+        $("form").validate().form();
+      });
+
+    }
+
+    $("input[type=phone]").inputmask({ "mask": "(999) 999-9999" });
+
+
+  </script>
+
+
+
+}
+
+@section CustomCSS {
+
+  <style>
+
+    .navbar-nav-svg {
+      fill: var(--ar-navbar-toggler-color);
+    }
+
+    .navbar-brand, .navbar-nav .nav-link, .navbar-nav .nav-link.active {
+      color: inherit;
+    }
+
+      .navbar-brand, .navbar-brand:hover {
+        color: inherit;
+      }
+  </style>
+
+}
+
+<section class="position-relative p-5 pb-0">
+  <div class="position-absolute w-100 h-100 top-0 start-0 bg-size-cover bg-position-center bg-light"></div>
+  <div class="d-none d-md-block d-lg-none" style="height: 50px;"></div>
+  <div class="d-none d-lg-block" style="height: 50px;"></div>
+  <div class="container-fluid mx-0 px-0 position-relative z-2 h-100">
+    <div class="row h-100">
+      <div class="col-12 h-100 d-flex align-items-center p-5">
+        <div class="w-100">
+          <h2 class="display-5 text-center">@pageTitle</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="container mb-5" style="background-color: white;">
+  <div class="card border-0">
+
+    <!-- Decorative shapes -->
+    @if (isPostBack)
+    {
+      <div class="alert alert-success">
+        Thank you for reaching out! We've received your message and will get back to you as soon as possible.
+      </div>
+    }
+    else
+    {
+      <div class="card-body">
+        <partial name="Partials/_ContactForm" model="new FormsController.ContactFormModel()" />
+      </div>
+
+    }
+  </div>
+
+
+</section>

@@ -1,0 +1,133 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+
+
+@{
+  Layout = "Master2.cshtml";
+
+  ImageCropperValue? bannerBackground;
+  bannerBackground = Model.HasProperty(nameof(bannerBackground)) && Model.HasValue(nameof(bannerBackground))
+    ? Model.Value<ImageCropperValue>(nameof(bannerBackground)) : null;
+
+
+  string? bannerTitle;
+  bannerTitle = Model.HasProperty(nameof(bannerTitle)) && Model.HasValue(nameof(bannerTitle))
+    ? Model.Value<string>(nameof(bannerTitle)) : null;
+
+  var featuredImageSrc = bannerBackground?.Src;
+
+
+}
+
+@section CustomCSS {
+
+  <style>
+
+    .history-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .objectives-text ol {
+      padding-left: 1rem;
+    }
+
+      .objectives-text ol li {
+        margin-bottom: 1rem;
+      }
+
+        .objectives-text ol li::marker {
+            display: none;
+
+        }
+  </style>
+
+}
+
+
+
+
+<!-- Hero -->
+<section class="position-relative p-5" style="height: 60vh">
+  <div class="position-absolute w-100 h-100 top-0 start-0 bg-size-cover bg-position-center" style="background-image: url(@featuredImageSrc);"></div>
+  <div class="position-absolute w-100 h-100 top-0 start-0 bg-size-cover  background-overlay"></div>
+  <div class="container-fluid mx-0 px-0 position-relative z-2 h-100">
+    <div class="row h-100">
+      <div class="col-12 h-100 d-flex align-items-center">
+        <div class="text-center flex-grow-1">
+          <h2 class="display-5 text-white">@bannerTitle</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="container mb-5 mt-5 py-sm-5 py-md-0" style="background-color: white;">
+  @{
+    RenderContent();
+  }
+</section>
+
+
+
+@functions {
+
+  void RenderContent()
+  {
+    var historyText = Model.Value<string>("historyText");
+    var historyPhoto = Model.Value<ImageCropperValue>("historyPhoto");
+    var objectivesText = Model.Value<string>("objectivesText");
+    var objectivesPhoto = Model.Value<ImageCropperValue>("objectivesPhoto");
+    <div class="row">
+      <div class="col">
+        <div class="card border-0" style="">
+          <div class="row g-0">
+
+            <div class="col-md-6 d-flex align-items-center order-md-2  d-none d-md-flex">
+              <div class="m-auto">
+                <img src="@historyPhoto?.Src" class="img-fluid img-thumbnail" alt="History Alt Photo" style="max-width: 300px">
+              </div>
+            </div>
+            <div class="col order-md-1 d-flex">
+              <div class="card-body pb-0 pt-0 m-auto">
+                <h5 class="card-title">History</h5>
+                <div class="card-text history-text">@Html.Raw(historyText)</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="my-3 border-0" />
+
+    <div class="row">
+      <div class="col">
+        <div class="card border-0" style="">
+          <div class="row g-0">
+            <div class="col-md-6 d-flex align-items-center order-md-1 d-none d-md-flex">
+              <div class="m-auto">
+                <img src="@objectivesPhoto?.Src" class="img-fluid img-thumbnail" alt="Objectives Alt Photo" style="max-width: 300px">
+              </div>
+            </div>
+            <div class="col order-md-2 d-flex">
+              <div class="card-body pt-0 m-auto">
+                <h5 class="card-title">Objectives</h5>
+                <div class="card-text objectives-text">
+                  @Html.Raw(objectivesText)
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  }
+}
+

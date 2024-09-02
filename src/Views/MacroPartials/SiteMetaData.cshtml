@@ -1,0 +1,40 @@
+﻿@inherits Umbraco.Cms.Web.Common.Macros.PartialViewMacroPage
+
+
+@{
+	var siteConfig = Umbraco.Content(1168);
+	
+	var siteTitle = siteConfig.HasProperty("siteTitle") && siteConfig.HasValue("siteTitle") ? siteConfig.Value<string>("siteTitle") : "";
+	
+	var favicon = siteConfig.HasProperty("favicon") && siteConfig.HasValue("favicon") ? siteConfig.Value<string>("favicon") : "";
+	
+    var metaCopyright = siteConfig.HasProperty("metaCopyright") && siteConfig.HasValue("metaCopyright") ? siteConfig.Value<string>("metaCopyright") : "";
+    var metaAuthor = siteConfig.HasProperty("metaAuthor") && siteConfig.HasValue("metaAuthor") ? siteConfig.Value<string>("metaAuthor") : "";
+    var metaRegion = siteConfig.HasProperty("metaRegion") && siteConfig.HasValue("metaRegion") ? siteConfig.Value<string>("metaRegion") : "";
+    var metaPlacename = siteConfig.HasProperty("metaPlacename") && siteConfig.HasValue("metaPlacename") ? siteConfig.Value<string>("metaPlacename") : "";
+    var metaPosition = siteConfig.HasProperty("metaPosition") && siteConfig.HasValue("metaPosition") ? siteConfig.Value<string>("metaPosition") : "";
+    var metaICBM = siteConfig.HasProperty("metaICBM") && siteConfig.HasValue("metaICBM") ? siteConfig.Value<string>("metaICBM") : "";
+	
+    var pageTitle = Model.Content.HasProperty("pageTitle") && Model.Content.HasValue("pageTitle") ? Model.Content.Value<string>("pageTitle") : Model.Content.Name;
+    var browserPageTitle = Model.Content.HasProperty("browserPageTitle") && Model.Content.HasValue("browserPageTitle") ? Model.Content.Value<string>("browserPageTitle") : pageTitle;
+    
+    var metaKeywords = Model.Content.HasProperty("metaKeywords") && Model.Content.HasValue("metaKeywords") ? Model.Content.Value<string>("metaKeywords") : "";
+    var metaDescription = Model.Content.HasProperty("metaDescription") && Model.Content.HasValue("metaDescription") ? Model.Content.Value<string>("metaDescription") : "";
+
+}
+
+<link href="@favicon" rel="shortcut icon" type="image/x-icon"/>
+<title>@pageTitle | @siteTitle</title>
+
+
+<!-- SEO meta tags -->
+<meta name='copyright' content='@metaCopyright'/>
+<meta name='author' content='@metaAuthor'/>
+<meta name='geo.region' content='@metaRegion'/>
+<meta name='geo.placename' content='@metaPlacename'/>
+<meta name='geo.position' content='@metaPosition'/>
+<meta name='ICBM' content='@metaICBM'/>
+
+
+<meta name="description" content="@metaDescription">
+<meta name="keywords" content="@metaKeywords">

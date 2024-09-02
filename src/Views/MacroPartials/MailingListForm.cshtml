@@ -1,0 +1,31 @@
+﻿@using ROCNSBE.MVC.Controllers
+@inherits Umbraco.Cms.Web.Common.Macros.PartialViewMacroPage
+
+@{
+
+  bool? tmpJoinMailingListResult = TempData["MailingListForm"] as bool?;
+  var isPostBack = tmpJoinMailingListResult == true;
+}
+
+@if (isPostBack)
+{
+  <div class="alert alert-success focus">
+    Thank you for subscribing! You've successfully joined our mailing list. Keep an eye on your inbox for the latest updates
+  </div>
+}
+else
+{
+
+  <div class=" " style="">
+    <div class="text-center text-light fw-light fs-5">
+      <p>Sign up to be the first to know about our events.</p>
+    </div>
+    <div class="row">
+      <div class="col-12 ">
+        <div>
+          <partial name="Partials/_MailingListForm" model="new FormsController.MailingListFormModel()" />
+        </div>
+      </div>
+    </div>
+  </div>
+}

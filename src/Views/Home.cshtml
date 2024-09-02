@@ -1,0 +1,96 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
+@using Umbraco.Cms.Core.Models.Blocks;
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters;
+
+@{
+  Layout = "Master2.cshtml";
+
+  var featuredImage = Model.HasProperty("bannerBackground") && Model.HasValue("bannerBackground") ? Model.Value<ImageCropperValue>("bannerBackground") : null;
+  var featuredImageSrc = featuredImage.Src;
+
+  var bannerTitle = Model.HasProperty("bannerTitle") && Model.HasValue("bannerTitle") ? Model.Value<string>("bannerTitle") : null;
+  var bannerSubtitle = Model.HasProperty("bannerSubtitle") && Model.HasValue("bannerSubtitle") ? Model.Value<string>("bannerSubtitle") : null;
+
+
+}
+
+
+<!-- Hero -->
+<section class="position-relative p-5 start-0 bg-size-cover bg-position-center" style="height: 95vh;background-image: url(@featuredImageSrc);">
+  <div class="position-absolute w-100 h-100 top-0 start-0 bg-size-cover bg-position-center background-overlay"></div>
+  <div class="container position-relative z-2 h-100">
+    <div class="row h-100">
+      <div class="col h-100 d-flex">
+        <div class="my-auto w-100">
+          <h2 class="display-5 text-white pt-5 mt-3">@bannerTitle</h2>
+          <p class="text-white fs-xl opacity-90 mx-auto pb-3 pb-md-0 mb-4 mb-md-5">@bannerSubtitle</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+@{
+  RenderMission();
+  await RenderMissionExpanded();
+}
+
+@functions {
+
+
+  void RenderMission()
+  {
+
+    var missionStatementHeading = Model.HasProperty("missionStatementHeading") && Model.HasValue("missionStatementHeading") ? Model.Value<string>("missionStatementHeading") : null;
+    var missionStatement = Model.HasProperty("missionStatement") && Model.HasValue("missionStatement") ? Model.Value<string>("missionStatement") : null;
+
+    <section class="container-fluid " style="background-color: var(--siteBackgroundColor);">
+      <section class="container p-5" style="">
+        <div class="row">
+          <div class="col-12 col-md-8 offset-md-2">
+            <div class=" " style="">
+              <div class="text-center text-light fw-light fs-5">
+                <p>@missionStatementHeading</p>
+              </div>
+              <div class="text-light text-center fs-2 fw-bold">
+                <p>@missionStatement</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+  }
+
+  async Task RenderMissionExpanded()
+  {
+
+    var blocks = Model.Value<IEnumerable<BlockListItem>>("extendedMissionStatement2");
+    if (blocks == null)
+      return;
+
+    <section class="container-fluid" style="background-color: #ffffff;">
+      <section class="container px-3 py-sm-5 py-md-0 mt-5" style="">
+        <div class="row">
+          <div class="col-12 col-md-10 offset-md-1">
+            @foreach (var block in blocks)
+            {
+              var content = block.Content;
+              if (content == null)
+                continue;
+
+              <partial name="Bootstrap/@content.ContentType.Alias" model="block" />
+            }
+
+          </div>
+        </div>
+      </section>
+    </section>
+  }
+}
+
