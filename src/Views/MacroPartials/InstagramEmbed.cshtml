@@ -1,0 +1,12 @@
+﻿@inherits Umbraco.Cms.Web.Common.Macros.PartialViewMacroPage
+
+
+@{
+	var siteConfiguration = Umbraco.Content(Guid.Parse("9b5c03b5-f5ad-4791-b557-20df08dbff93"));
+	var instagramEmbed = siteConfiguration.Value<string>("instagramEmbed");
+}
+
+@Html.Raw(instagramEmbed)
+
+
+<script async src="https://www.instagram.com/embed.js"></script>
