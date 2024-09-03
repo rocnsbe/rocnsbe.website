@@ -1,9 +1,13 @@
 # Use the SDK image to build and publish the website
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
+WORKDIR /MVC
+
+COPY MVC/* .
+
 WORKDIR /src
 
-COPY ["src/ROCNSBE.Website.csproj", "."]
+COPY src/ROCNSBE.Website.csproj .
 
 RUN dotnet restore "ROCNSBE.Website.csproj"
 
